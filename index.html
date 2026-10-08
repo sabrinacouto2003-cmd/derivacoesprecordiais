@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<style id="lumi-runtime">
+/* luminous.css */
+/*
+ * Luminous runtime stylesheet — injected once into every generated widget's
+ * <head> by the C++ widget agent (id="lumi-runtime"). Single Source of Truth
+ * for ALL design tokens and pre-baked .lumi-* component classes. The SI prompts
+ * (design.md / html_generation.jinja2 / chart.jinja2) must NOT re-declare these
+ * tokens or component CSS; they only reference them.
+ *
+ * Sections:
+ * 1. Web fonts (Google Sans Flex + Google Sans Code)
+ * 2. Light token :root (from previewer tokens.css, verbatim)
+ * 3. Dark token overrides — REMAPPED to :root so canvas/D3 readers of
+ * getComputedStyle(document.documentElement) resolve dark values (D3).
+ * 4. Short diagram/chart aliases (bridge legacy --surface / --chart-N names).
+ * 5. In-scope pre-baked .lumi-* component classes.
+ */
+
+/* ============================================================
+ * 1. WEB FONTS  (Google Sans Flex + Google Sans Code only)
+ * Material Symbols Outlined is intentionally NOT loaded: no in-scope
+ * .lumi-* control has a functional CSS glyph dependency on it, and the
+ * icon ban forbids decorative icons (Decision D2).
+ * ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ital,wght@0,300..700;1,300..700&family=Google+Sans+Code:ital,wght,MONO@0,300..700,0..1;1,300..700,0..1&display=swap');
+
+/* ============================================================
+ * 2. LIGHT TOKENS (:root)
+ * ============================================================ */
+:root {
+  --body-bg: transparent;
+  --ff-sans: 'Google Sans Flex', 'Google Sans Text', 'Google Sans', sans-serif;
+  --ff-mono: 'Google Sans Code', 'Google Sans Mono', monospace;
+
+  --lumi-sys-spacing--xxs: 2px;
+  --lumi-sys-spacing--xs: 4px;
+  --lumi-sys-spacing--s: 8px;
+  --lumi-sys-spacing--m: 12px;
+  --lumi-sys-spacing--l: 16px;
+  --lumi-sys-spacing--xl: 20px;
+  --lumi-sys-spacing--xxl: 24px;
+  --lumi-sys-spacing--3xl: 28px;
+  --lumi-sys-spacing--4xl: 36px;
+
+  --lumi-sys-shape--none: 0px;
+  --lumi-sys-shape--extra-small: 4px;
+  --lumi-sys-shape--small: 8px;
+  --lumi-sys-shape--medium: 12px;
+  --lumi-sys-shape--large: 16px;
+  --lumi-sys-shape--large-increased: 20px;
+  --lumi-sys-shape--large-max: 24px;
+  --lumi-sys-shape--xl: 28px;
+  --lumi-sys-shape--xl-increased: 32px;
+  --lumi-sys-shape--xl-max: 40px;
+  --lumi-sys-shape--xxl: 48px;
+  --lumi-sys-shape--xxl-increased: 56px;
+  --lumi-sys-shape--full: 999px;
+
+  --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.04);
+  --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.11);
+
+  --lumi-sys-color--surface: #fdfcfc;
+  --lumi-sys-color--surface-dim: #f2f0f0;
+  --lumi-sys-color--surface-bright: #ffffff;
+  --lumi-sys-color--surface-background: #fdfcfc;
+  --lumi-sys-color--surface-accent: #9dd2ff;
+  --lumi-sys-color--surface-container: #f2f0f0;
+  --lumi-sys-color--surface-container-high: #e6e6e6;
+  --lumi-sys-color--surface-translucent: rgba(255, 255, 255, 0.88);
+  --lumi-sys-color--on-surface: #000000;
+  --lumi-sys-color--on-surface-default: #000000;
+  --lumi-sys-color--on-surface-variant: rgba(0, 0, 0, 0.55);
+  --lumi-sys-color--on-surface-de-emphasis: rgba(0, 0, 0, 0.55);
+  --lumi-sys-color--on-surface-low: rgba(0, 0, 0, 0.08);
+  --lumi-sys-color--positive: #008052;
+  --lumi-sys-color--positive-container: #daf9d4;
+  --lumi-sys-color--on-positive-container: #009954;
+  --lumi-sys-color--error: #de2d29;
+  --lumi-sys-color--error-container: #ffdeec;
+  --lumi-sys-color--on-error-container: #de2d29;
+  --lumi-sys-color--accent: #9dd2ff;
+  --lumi-sys-color--accent-container: #dcf1ff;
+  --lumi-sys-color--accent-fixed: #3186ff;
+  --lumi-sys-color--primary: #3186ff;
+  --lumi-sys-color--on-primary: #ffffff;
+  --lumi-sys-color--black: #000000;
+  --lumi-sys-color--white: #ffffff;
+  --lumi-sys-color--outline: #727676;
+  --lumi-sys-color--stroke-default: #e3e3e3;
+
+  --lumi-sys-opacity-state--hover: 0.08;
+  --lumi-sys-opacity-state--focus: 0.08;
+  --lumi-sys-opacity-state--pressed: 0.12;
+  --lumi-sys-opacity-state--disabled: 0.12;
+  --lumi-sys-opacity-state--disabled-label: 0.38;
+
+  --lumi-sys-color--code-background: #000000;
+  --lumi-sys-color--code-primary-text: #ffffff;
+  --lumi-sys-color--code-blue-text: #4fa0ff;
+  --lumi-sys-color--code-green-text: #60d673;
+  --lumi-sys-color--code-grey-text: #808080;
+  --lumi-sys-color--code-pink-text: #ff96da;
+  --lumi-sys-color--code-purple-text: #969dff;
+  --lumi-sys-color--code-red-text: #ff5a59;
+  --lumi-sys-color--code-yellow-text: #ffdb0f;
+
+  --lumi-sys-color--chart-series-1: #2575fc;
+  --lumi-sys-color--chart-series-2: #5b6e9e;
+  --lumi-sys-color--chart-series-3: #228a49;
+  --lumi-sys-color--chart-series-4: #62991b;
+  --lumi-sys-color--chart-series-5: #1e564d;
+  --lumi-sys-color--chart-series-6: #526a45;
+  --lumi-sys-color--chart-series-7: #2780c4;
+  --lumi-sys-color--chart-series-8: #997112;
+  --lumi-sys-color--chart-series-9: #705ec2;
+  --lumi-sys-color--chart-series-10: #c84288;
+}
+
+/* ============================================================
+ * 3. DARK TOKENS  (REMAPPED to :root — Decision D3)
+ * Canvas / Chart.js / D3 read getComputedStyle(document.documentElement);
+ * the theme-sync listener sets data-theme="dark" on <html>, so dark values
+ * MUST live on :root (not scoped to body) to prevent black-chart regressions.
+ * ============================================================ */
+:root[data-theme="dark"],
+body.dark-mode,
+:root[data-theme="dark"] body {
+  --body-bg: #0f0f0f;
+  --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.28);
+  --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.40);
+
+  --lumi-sys-color--surface: #0f0f0f;
+  --lumi-sys-color--surface-dim: #141414;
+  --lumi-sys-color--surface-bright: #1c1c1c;
+  --lumi-sys-color--surface-background: #0f0f0f;
+  --lumi-sys-color--surface-accent: #14204f;
+  --lumi-sys-color--surface-container: #141414;
+  --lumi-sys-color--surface-container-high: #1c1c1c;
+  --lumi-sys-color--surface-translucent: rgba(24, 24, 27, 0.88);
+  --lumi-sys-color--on-surface: #e0e0e0;
+  --lumi-sys-color--on-surface-default: #e0e0e0;
+  --lumi-sys-color--on-surface-variant: rgba(255, 255, 255, 0.55);
+  --lumi-sys-color--on-surface-de-emphasis: rgba(255, 255, 255, 0.55);
+  --lumi-sys-color--on-surface-low: rgba(255, 255, 255, 0.12);
+  --lumi-sys-color--positive: #0ebc5f;
+  --lumi-sys-color--positive-container: #002220;
+  --lumi-sys-color--on-positive-container: #0ebc5f;
+  --lumi-sys-color--error: #ff4c45;
+  --lumi-sys-color--error-container: #3c0202;
+  --lumi-sys-color--on-error-container: #ff4c45;
+  --lumi-sys-color--accent: #1f3b9b;
+  --lumi-sys-color--accent-container: #192967;
+  --lumi-sys-color--accent-fixed: #3186ff;
+  --lumi-sys-color--primary: #9dd2ff;
+  --lumi-sys-color--on-primary: #192967;
+  --lumi-sys-color--black: #000000;
+  --lumi-sys-color--white: #ffffff;
+  --lumi-sys-color--outline: #9a9b9c;
+  --lumi-sys-color--stroke-default: #2d2f38;
+
+  --lumi-sys-color--code-background: #141414;
+  --lumi-sys-color--code-primary-text: #ffffff;
+  --lumi-sys-color--code-blue-text: #4fa0ff;
+  --lumi-sys-color--code-green-text: #60d673;
+  --lumi-sys-color--code-grey-text: #808080;
+  --lumi-sys-color--code-pink-text: #ff96da;
+  --lumi-sys-color--code-purple-text: #969dff;
+  --lumi-sys-color--code-red-text: #ff5a59;
+  --lumi-sys-color--code-yellow-text: #ffdb0f;
+
+  --lumi-sys-color--chart-series-1: #9dd2ff;
+  --lumi-sys-color--chart-series-2: #96a7d6;
+  --lumi-sys-color--chart-series-3: #50e389;
+  --lumi-sys-color--chart-series-4: #c8f585;
+  --lumi-sys-color--chart-series-5: #f5f2e6;
+  --lumi-sys-color--chart-series-6: #dcd8c0;
+  --lumi-sys-color--chart-series-7: #82c7ff;
+  --lumi-sys-color--chart-series-8: #f5d77f;
+  --lumi-sys-color--chart-series-9: #d9ceff;
+  --lumi-sys-color--chart-series-10: #ffa6d7;
+}
+
+/* ============================================================
+ * 3b. OS-LEVEL DARK FALLBACK  (prefers-color-scheme)
+ * ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --body-bg: #0f0f0f;
+    --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.28);
+    --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.40);
+
+    --lumi-sys-color--surface: #0f0f0f;
+    --lumi-sys-color--surface-dim: #141414;
+    --lumi-sys-color--surface-bright: #1c1c1c;
+    --lumi-sys-color--surface-background: #0f0f0f;
+    --lumi-sys-color--surface-accent: #14204f;
+    --lumi-sys-color--surface-container: #141414;
+    --lumi-sys-color--surface-container-high: #1c1c1c;
+    --lumi-sys-color--surface-translucent: rgba(24, 24, 27, 0.88);
+    --lumi-sys-color--on-surface: #e0e0e0;
+    --lumi-sys-color--on-surface-default: #e0e0e0;
+    --lumi-sys-color--on-surface-variant: rgba(255, 255, 255, 0.55);
+    --lumi-sys-color--on-surface-de-emphasis: rgba(255, 255, 255, 0.55);
+    --lumi-sys-color--on-surface-low: rgba(255, 255, 255, 0.12);
+    --lumi-sys-color--positive: #0ebc5f;
+    --lumi-sys-color--positive-container: #002220;
+    --lumi-sys-color--on-positive-container: #0ebc5f;
+    --lumi-sys-color--error: #ff4c45;
+    --lumi-sys-color--error-container: #3c0202;
+    --lumi-sys-color--on-error-container: #ff4c45;
+    --lumi-sys-color--accent: #1f3b9b;
+    --lumi-sys-color--accent-container: #192967;
+    --lumi-sys-color--accent-fixed: #3186ff;
+    --lumi-sys-color--primary: #9dd2ff;
+    --lumi-sys-color--on-primary: #192967;
+    --lumi-sys-color--black: #000000;
+    --lumi-sys-color--white: #ffffff;
+    --lumi-sys-color--outline: #9a9b9c;
+    --lumi-sys-color--stroke-default: #2d2f38;
+
+    --lumi-sys-color--code-background: #141414;
+    --lumi-sys-color--code-primary-text: #ffffff;
+    --lumi-sys-color--code-blue-text: #4fa0ff;
+    --lumi-sys-color--code-green-text: #60d673;
+    --lumi-sys-color--code-grey-text: #808080;
+    --lumi-sys-color--code-pink-text: #ff96da;
+    --lumi-sys-color--code-purple-text: #969dff;
+    --lumi-sys-color--code-red-text: #ff5a59;
+    --lumi-sys-color--code-yellow-text: #ffdb0f;
+
+    --lumi-sys-color--chart-series-1: #9dd2ff;
+    --lumi-sys-color--chart-series-2: #96a7d6;
+    --lumi-sys-color--chart-series-3: #50e389;
+    --lumi-sys-color--chart-series-4: #c8f585;
+    --lumi-sys-color--chart-series-5: #f5f2e6;
+    --lumi-sys-color--chart-series-6: #dcd8c0;
+    --lumi-sys-color--chart-series-7: #82c7ff;
+    --lumi-sys-color--chart-series-8: #f5d77f;
+    --lumi-sys-color--chart-series-9: #d9ceff;
+    --lumi-sys-color--chart-series-10: #ffa6d7;
+  }
+}
+
+/* ============================================================
+ * 4. SHORT DIAGRAM / CHART ALIASES
+ * ============================================================ */
+:root {
+  /* surfaces */
+  --surface: var(--lumi-sys-color--surface, #fdfcfc);
+  --surface-dim: var(--lumi-sys-color--surface-dim, #f2f0f0);
+  --surface-bright: var(--lumi-sys-color--surface-bright, #ffffff);
+  --surface-container: var(--lumi-sys-color--surface-container, #f2f0f0);
+  --surface-container-high: var(--lumi-sys-color--surface-container-high, #e6e6e6);
+  --surface-container-lowest: var(--lumi-sys-color--surface, #ffffff);
+  --surface-accent: var(--lumi-sys-color--surface-accent, #9dd2ff);
+  --surface-translucent: var(--lumi-sys-color--surface-translucent, rgba(255, 255, 255, 0.88));
+  --surface-glass: var(--lumi-sys-color--surface-translucent, rgba(255, 255, 255, 0.88));
+  /* foreground */
+  --on-surface: var(--lumi-sys-color--on-surface, #000000);
+  --on-surface-variant: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55));
+  --on-surface-low: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08));
+  /* accents / brand */
+  --primary: var(--lumi-sys-color--primary, #3186ff);
+  --primary-container: var(--lumi-sys-color--accent-container, #dcf1ff);
+  --accent: var(--lumi-sys-color--accent, #9dd2ff);
+  --accent-container: var(--lumi-sys-color--accent-container, #dcf1ff);
+  --accent-fixed: var(--lumi-sys-color--accent-fixed, #3186ff);
+  /* status */
+  --positive: var(--lumi-sys-color--positive, #008052);
+  --positive-container: var(--lumi-sys-color--positive-container, #daf9d4);
+  --error: var(--lumi-sys-color--error, #de2d29);
+  --error-container: var(--lumi-sys-color--error-container, #ffdeec);
+  /* structure */
+  --outline: var(--lumi-sys-color--outline, #727676);
+  --stroke-default: var(--lumi-sys-color--stroke-default, #e3e3e3);
+  /* chart series 1..10 */
+  --chart-1: var(--lumi-sys-color--chart-series-1, #2575fc);
+  --chart-2: var(--lumi-sys-color--chart-series-2, #5b6e9e);
+  --chart-3: var(--lumi-sys-color--chart-series-3, #228a49);
+  --chart-4: var(--lumi-sys-color--chart-series-4, #62991b);
+  --chart-5: var(--lumi-sys-color--chart-series-5, #1e564d);
+  --chart-6: var(--lumi-sys-color--chart-series-6, #526a45);
+  --chart-7: var(--lumi-sys-color--chart-series-7, #2780c4);
+  --chart-8: var(--lumi-sys-color--chart-series-8, #997112);
+  --chart-9: var(--lumi-sys-color--chart-series-9, #705ec2);
+  --chart-10: var(--lumi-sys-color--chart-series-10, #c84288);
+  /* code palette */
+  --code-background: var(--lumi-sys-color--code-background, #000000);
+  --code-primary-text: var(--lumi-sys-color--code-primary-text, #ffffff);
+  /* spacing shorthands */
+  --spacing-xs: var(--lumi-sys-spacing--xs, 4px);
+  --spacing-s: var(--lumi-sys-spacing--s, 8px);
+  --spacing-m: var(--lumi-sys-spacing--m, 12px);
+  --spacing-l: var(--lumi-sys-spacing--l, 16px);
+  --spacing-xl: var(--lumi-sys-spacing--xl, 20px);
+  /* radius shorthands */
+  --r-s: var(--lumi-sys-shape--small, 8px);
+  --r-m: var(--lumi-sys-shape--medium, 12px);
+  --r-l: var(--lumi-sys-shape--large, 16px);
+  --r-full: var(--lumi-sys-shape--full, 999px);
+}
+
+html, body {
+  background: var(--body-bg, transparent) !important;
+  color: var(--on-surface) !important;
+  overflow-y: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lumi-sys-spacing--xs, 6px);
+  min-height: 36px;
+  padding: 6px 16px;
+  font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--on-surface, #000000);
+  background-color: var(--surface-bright, #ffffff);
+  border: 1px solid var(--stroke-default, #e3e3e3);
+  border-radius: var(--lumi-sys-shape--full, 999px);
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+button:hover {
+  background-color: var(--surface-container-high, #e6e6e6);
+}
+
+.lumi-btn, [class^="lumi-btn-"], [class*=" lumi-btn-"] { display: inline-flex; align-items: center; justify-content: center; gap: var(--lumi-sys-spacing--s, 8px); min-height: 40px; padding: 0px 20px; font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 14px; font-weight: 500; line-height: 20px; border-radius: var(--lumi-sys-shape--full, 999px); border: 1px solid var(--lumi-sys-color--stroke-default, #e3e3e3); cursor: pointer; user-select: none; transition: background-color 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s; text-decoration: none; box-sizing: border-box; white-space: nowrap; }
+.lumi-btn:active, .lumi-btn.is-pressed { transform: scale(0.98); }
+.lumi-btn--accent, .lumi-btn-accent, .lumi-btn--primary, .lumi-btn-primary { background-color: var(--lumi-sys-color--accent, #9dd2ff); color: var(--lumi-sys-color--on-surface-default, #000000); border-color: transparent; }
+.lumi-btn--accent:hover, .lumi-btn-accent:hover, .lumi-btn--primary:hover, .lumi-btn-primary:hover { background-color: var(--lumi-sys-color--accent-container, #dcf1ff); }
+.lumi-btn--ghost, .lumi-btn-ghost, .lumi-btn--on-surface { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.04)); color: var(--lumi-sys-color--on-surface-default, #000000); border-color: transparent; }
+.lumi-btn--ghost:hover, .lumi-btn-ghost:hover, .lumi-btn--on-surface:hover { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-btn--xsmall, .lumi-btn-xsmall { min-height: 24px; padding: 0px 10px; font-size: 11px; line-height: 16px; gap: 4px; }
+
+.lumi-headline-m { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 24px; line-height: 28px; font-weight: 380; font-variation-settings: "wght" 380, "wdth" 100, "opsz" 24, "ROND" 20; }
+.lumi-body-s { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 13px; line-height: 17px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13; }
+
+svg text { stroke: none; paint-order: fill; }
+</style>
+<style id="lumi-surface-button-fallbacks">
+:root {
+  --lumi-sys-color--surface-translucent: rgba(255, 255, 255, 0.88);
+  --surface-translucent: var(--lumi-sys-color--surface-translucent, rgba(255, 255, 255, 0.88));
+  --surface-glass: var(--lumi-sys-color--surface-translucent, rgba(255, 255, 255, 0.88));
+}
+:root[data-theme="dark"], body.dark-mode {
+  --lumi-sys-color--surface-translucent: rgba(24, 24, 27, 0.88);
+  --surface-translucent: rgba(24, 24, 27, 0.88);
+  --surface-glass: rgba(24, 24, 27, 0.88);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --lumi-sys-color--surface-translucent: rgba(24, 24, 27, 0.88);
+    --surface-translucent: rgba(24, 24, 27, 0.88);
+    --surface-glass: rgba(24, 24, 27, 0.88);
+  }
+}
+</style>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progressão Morfológica do Complexo QRS (V1 a V6)</title>
+  <style>
+    /* Estilos do Widget e CSS Personalizado */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background: transparent;
+      font-family: var(--ff-sans, system-ui, -apple-system, sans-serif);
+      color: var(--on-surface);
+      overflow-y: hidden;
+    }
+
+    .widget-container {
+      width: 100%;
+      /* Otimizado para permitir que os gráficos se estendam num formato de lado a lado */
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--spacing-m, 12px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-m, 12px);
+      min-height: 280px;
+    }
+
+    /* Estilos do Cabeçalho */
+    .header-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs, 4px);
+    }
+
+    /* Chips de Navegação e Controlos */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-m, 12px);
+      flex-wrap: wrap;
+    }
+
+    .lead-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .lead-chip {
+      padding: 6px 12px;
+      border-radius: var(--r-full, 999px);
+      background: var(--surface-dim);
+      color: var(--on-surface);
+      border: 1px solid var(--stroke-default);
+      font-family: var(--ff-mono, monospace);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .lead-chip:hover {
+      background: var(--surface-container-high);
+    }
+
+    .lead-chip.is-active {
+      background: var(--accent-container);
+      color: var(--primary);
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+
+    .step-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs, 4px);
+    }
+
+    /* Grelha de Diagramas Reponsiva */
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-m, 12px);
+      width: 100%;
+    }
+
+    /* Colapsa para coluna única em dispositivos móveis (< 650px) */
+    @media (max-width: 650px) {
+      .diagram-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Envolvente do Viewport SVG */
+    .diagram-box {
+      background: var(--surface-dim);
+      border-radius: var(--r-m, 12px);
+      border: 1px solid var(--stroke-default);
+      padding: var(--spacing-s, 8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      box-sizing: border-box;
+      /* Isto evita que se distenda muito se o espaço for alto */
+      overflow: hidden;
+    }
+
+    .diagram-svg {
+      width: 100%;
+      height: auto;
+      max-height: 310px; /* Limite máximo razoável */
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Elementos SVG Interativos */
+    .lead-node {
+      cursor: pointer;
+    }
+
+    .lead-node circle {
+      transition: r 0.2s ease, fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    .lead-node text {
+      font-family: var(--ff-mono, monospace);
+      font-size: 12px;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .vector-arrow {
+      transition: all 0.3s ease;
+    }
+
+    .qrs-path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+      transition: d 0.3s ease;
+    }
+
+    /* Cartão de Detalhes */
+    .info-deck {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-m, 12px);
+      background: var(--surface-dim);
+      border-radius: var(--r-m, 12px);
+      border: 1px solid var(--stroke-default);
+      padding: var(--spacing-m, 12px);
+    }
+
+    @media (max-width: 480px) {
+      .info-deck {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .info-label {
+      font-family: var(--ff-mono, monospace);
+      font-size: 12px;
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .info-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--on-surface);
+    }
+
+    .info-highlight {
+      color: var(--primary);
+      font-family: var(--ff-mono, monospace);
+      font-weight: 700;
+    }
+
+    .text-none { stroke: none; paint-order: fill; }
+  </style>
+<script id="lumi-os-theme-init">
+(function() {
+  function syncBody() {
+    var dt = document.documentElement.getAttribute('data-theme');
+    if (document.body && (dt === 'dark' || dt === 'light')) {
+      document.body.classList.toggle('dark-mode', dt === 'dark');
+    }
+  }
+  function syncTheme(theme) {
+    if (theme !== 'dark' && theme !== 'light') return;
+    document.documentElement.setAttribute('data-theme', theme);
+    syncBody();
+  }
+  if (typeof MutationObserver === 'function') {
+    new MutationObserver(syncBody).observe(document.documentElement, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
+  }
+  if (typeof document.addEventListener === 'function') {
+    document.addEventListener('DOMContentLoaded', syncBody);
+  }
+  try {
+    var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    if (mq) {
+      var cur = document.documentElement.getAttribute('data-theme');
+      if (!cur) {
+        syncTheme(mq.matches ? 'dark' : 'light');
+      } else {
+        syncTheme(cur);
+      }
+      if (mq.addEventListener) {
+        mq.addEventListener('change', function(e) {
+          syncTheme(e.matches ? 'dark' : 'light');
+        });
+      }
+    }
+  } catch (e) {}
+  window.addEventListener('message', function(e) {
+    if (e.data && (e.data.type === 'set-theme' || e.data.type === 'APPLY_THEME') && e.data.theme) {
+      syncTheme(e.data.theme);
+    }
+  });
+})();
+</script>
+</head>
+<body>
+  <div class="widget-container">
+    <!-- Título / Cabeçalho -->
+    <div class="header-card">
+      <h2 class="lumi-headline-m" style="margin:0;">Progressão Morfológica do QRS (V1–V6)</h2>
+      <p class="lumi-body-s" style="margin:0; color: var(--on-surface-variant);">
+        Crescimento da onda R e encolhimento da onda S pela variação do vetor ventricular esquerdo.
+      </p>
+    </div>
+
+    <!-- Barra de Controlos -->
+    <div class="nav-bar">
+      <div class="lead-chips" id="leadChips">
+        <button class="lead-chip is-active" data-index="0">V1</button>
+        <button class="lead-chip" data-index="1">V2</button>
+        <button class="lead-chip" data-index="2">V3</button>
+        <button class="lead-chip" data-index="3">V4</button>
+        <button class="lead-chip" data-index="4">V5</button>
+        <button class="lead-chip" data-index="5">V6</button>
+      </div>
+
+      <div class="step-controls">
+        <button class="lumi-btn lumi-btn--ghost lumi-btn--xsmall" id="btnPrev" title="Derivação Anterior">Anterior</button>
+        <button class="lumi-btn lumi-btn--accent lumi-btn--xsmall" id="btnNext" title="Próxima Derivação">Seguinte</button>
+      </div>
+    </div>
+
+    <!-- Visualização Principal - Agora dividida numa Grelha Resposiva -->
+    <div class="diagram-grid">
+      
+      <!-- Metade Esquerda: Corte Transversal Anatómico do Tórax e Coração -->
+      <div class="diagram-box">
+        <svg id="thoracicSvg" viewBox="0 0 320 310" class="diagram-svg" aria-label="Corte Transversal Torácico">
+          <defs>
+            <marker id="lumi-caret" viewBox="0 0 10 10" refX="7.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto">
+              <path d="M 3 1.2 L 7.5 5 L 3 8.8" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+            <marker id="proj-caret" viewBox="0 0 10 10" refX="7.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 3 1.2 L 7.5 5 L 3 8.8" fill="none" stroke="var(--chart-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <g id="thoracicView">
+            <!-- Esboço Torácico de Fundo -->
+            <path d="M 60 140 C 60 40, 240 40, 260 140 C 270 210, 230 270, 160 270 C 90 270, 50 210, 60 140 Z" 
+                  fill="var(--surface-container)" stroke="var(--outline)" stroke-width="1" stroke-dasharray="0 4" stroke-linecap="round"/>
+            <text x="160" y="285" text-anchor="middle" font-size="12" font-family="var(--ff-mono)" fill="var(--on-surface-variant)" class="text-none">Corte Transversal Torácico</text>
+
+            <!-- Esquema das Câmaras Cardíacas -->
+            <g id="heartChambers" transform="translate(145, 145)">
+              <!-- Ventrículo Direito (VD) -->
+              <path d="M -25 -30 C -55 -15, -55 25, -20 35 C -15 15, -15 -15, -25 -30 Z" 
+                    fill="var(--surface-bright)" stroke="var(--outline)" stroke-width="1.3"/>
+              <text x="-38" y="5" font-size="12" font-family="var(--ff-sans)" fill="var(--on-surface-variant)" text-anchor="middle" class="text-none">VD</text>
+
+              <!-- Septo Interventricular -->
+              <path d="M -20 -35 C -10 -20, -10 20, -15 40 C -5 40, 5 20, 0 -35 Z" 
+                    fill="var(--surface-bright)" stroke="var(--outline)" stroke-width="1.3"/>
+
+              <!-- Ventrículo Esquerdo (VE - Parede Espessa) -->
+              <path d="M 0 -38 C 45 -30, 50 35, -12 42 C 15 25, 20 -15, -5 -35 Z" 
+                    fill="var(--surface-bright)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="18" y="5" font-size="12" font-family="var(--ff-sans)" font-weight="600" fill="var(--on-surface)" text-anchor="middle" class="text-none">VE</text>
+
+              <!-- Base / Ponto Central -->
+              <circle cx="-5" cy="0" r="3" fill="var(--on-surface)"/>
+            </g>
+
+            <!-- Vetor Predominante de Despolarização do VE -->
+            <g id="vectorGroup">
+              <!-- Vetor Principal a apontar para a Ponta/Lateral Esquerda (aprox +60° / direção V5-V6) -->
+              <line x1="140" y1="145" x2="225" y2="205" fill="none" stroke="var(--primary)" stroke-width="2.5" marker-end="url(#lumi-caret)"/>
+              <text x="210" y="222" font-size="12" font-weight="600" font-family="var(--ff-mono)" fill="var(--primary)" text-anchor="middle" class="text-none">Vetor QRS (VE)</text>
+            </g>
+
+            <!-- Linha de Visão / Linha de Projeção para a Derivação Selecionada -->
+            <line id="projectionLine" x1="140" y1="145" x2="200" y2="100" fill="none" stroke="var(--chart-3)" stroke-width="1.3" stroke-dasharray="0 4" stroke-linecap="round" marker-end="url(#proj-caret)"/>
+
+            <!-- Câmaras de Derivação (Arco V1 a V6) -->
+            <g id="leadNodes">
+              <!-- Nós dinâmicos renderizados pelo JS -->
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Metade Direita: Traçado do Morfotipo QRS do ECG em Tempo Real -->
+      <div class="diagram-box">
+        <svg id="ecgSvg" viewBox="0 0 320 260" class="diagram-svg" aria-label="Diagrama do Traçado de ECG">
+          <defs>
+            <!-- Padrão de Grelha para a Caixa de ECG -->
+            <pattern id="ecgGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="var(--stroke-default)" stroke-width="0.5" stroke-opacity="0.6"/>
+            </pattern>
+          </defs>
+
+          <g id="ecgDisplay">
+            <!-- Caixa Externa do Painel de ECG -->
+            <rect x="0" y="0" width="320" height="260" rx="8" fill="var(--surface)" stroke="var(--stroke-default)" stroke-width="1"/>
+            <!-- Sobreposição da Grelha -->
+            <rect x="10" y="10" width="300" height="240" rx="4" fill="url(#ecgGrid)" stroke="var(--outline)" stroke-opacity="0.3"/>
+
+            <!-- Linha Isoelétrica (Y = 130) -->
+            <line x1="10" y1="130" x2="310" y2="130" stroke="var(--on-surface-variant)" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+            <text x="20" y="125" font-size="12" font-family="var(--ff-mono)" fill="var(--on-surface-variant)" class="text-none">Linha Isoelétrica</text>
+
+            <!-- Traçado Dinâmico do QRS -->
+            <path id="qrsTrace" d="M 30 130 L 100 130 L 110 125 L 130 180 L 150 70 L 170 130 L 290 130" 
+                  fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="qrs-path"/>
+
+            <!-- Etiquetas das Ondas (onda R, onda S) -->
+            <g id="waveLabels">
+              <text id="lblQ" x="110" y="145" font-size="12" font-family="var(--ff-mono)" font-weight="600" fill="var(--chart-2)" text-anchor="middle" class="text-none">q</text>
+              <text id="lblR" x="150" y="55" font-size="13" font-family="var(--ff-mono)" font-weight="700" fill="var(--primary)" text-anchor="middle" class="text-none">R</text>
+              <text id="lblS" x="170" y="198" font-size="13" font-family="var(--ff-mono)" font-weight="700" fill="var(--chart-10)" text-anchor="middle" class="text-none">S</text>
+            </g>
+
+            <!-- Distintivo (Badge) para a Derivação Ativa -->
+            <rect x="235" y="20" width="65" height="26" rx="13" fill="var(--accent-container)" stroke="var(--primary)" stroke-width="1"/>
+            <text id="badgeLeadName" x="267.5" y="37" font-size="13" font-family="var(--ff-mono)" font-weight="700" fill="var(--primary)" text-anchor="middle" class="text-none">V1</text>
+          </g>
+        </svg>
+      </div>
+
+    </div> <!-- Fim da Grelha -->
+
+    <!-- Cartão de Informações e Explicação -->
+    <div class="info-deck">
+      <div class="info-cell">
+        <span class="info-label">Derivação & Posição</span>
+        <span class="info-value" id="txtPos">V1 — Paraesternal Direito (4º EIC)</span>
+      </div>
+      <div class="info-cell">
+        <span class="info-label">Relação R/S & Morfotipo</span>
+        <span class="info-value info-highlight" id="txtRatio">rS (R pequeno, S profundo)</span>
+      </div>
+      <div class="info-cell" style="grid-column: 1 / -1;">
+        <span class="info-label">Mecanismo Eletrofisiológico</span>
+        <span class="info-value" id="txtMech" style="font-size: 13px; line-height: 1.4; color: var(--on-surface-variant);">
+          O vetor principal de despolarização do ventrículo esquerdo afasta-se de V1, gerando uma onda S predominantemente negativa com uma pequena onda r septal.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Especificação de Dados para as Derivações Precordiais V1-V6
+    const LEADS_DATA = [
+      {
+        name: "V1",
+        pos: "Átrio / VD (4º Espaço Intercostal Direito)",
+        ratio: "rS (r < S — R/S < 1)",
+        mech: "Como o grande vetor de despolarização do Ventrículo Esquerdo se afasta de V1, a deflexão principal é negativa (onda S profunda). A pequena onda r inicial reflete a despolarização septal.",
+        coords: { x: 72, y: 110 },
+        // Coordenadas do Caminho do QRS (Linha de base Y=130)
+        // Sequência do caminho: start -> q -> R -> S -> end
+        pathD: "M 30 130 L 100 130 L 115 120 L 135 205 L 155 130 L 290 130",
+        lblQ: { visible: false, x: 0, y: 0 },
+        lblR: { visible: true, x: 115, y: 108, text: "r" },
+        lblS: { visible: true, x: 135, y: 220, text: "S" }
+      },
+      {
+        name: "V2",
+        pos: "Septo Interventricular (4º EIC Esquerdo)",
+        ratio: "rS (r ligeiramente maior, S ainda profunda)",
+        mech: "V2 está diretamente sobre o septo interventricular. O vetor do VE ainda se afasta predominantemente, resultando em complexo rS com crescimento discreto da onda r.",
+        coords: { x: 102, y: 72 },
+        pathD: "M 30 130 L 100 130 L 115 105 L 135 195 L 155 130 L 290 130",
+        lblQ: { visible: false, x: 0, y: 0 },
+        lblR: { visible: true, x: 115, y: 93, text: "r" },
+        lblS: { visible: true, x: 135, y: 210, text: "S" }
+      },
+      {
+        name: "V3",
+        pos: "Parede Anterior (Zona de Transição, 5º EIC)",
+        ratio: "RS (Isodifásico — R/S ≈ 1)",
+        mech: "Zona de Transição Elétrica. O vetor principal do VE é perpendicular à lente de V3, fazendo com que a amplitude da onda R positiva iguale a amplitude da onda S negativa.",
+        coords: { x: 152, y: 56 },
+        pathD: "M 30 130 L 100 130 L 115 124 L 135 75 L 155 185 L 170 130 L 290 130",
+        lblQ: { visible: false, x: 0, y: 0 },
+        lblR: { visible: true, x: 135, y: 60, text: "R" },
+        lblS: { visible: true, x: 155, y: 200, text: "S" }
+      },
+      {
+        name: "V4",
+        pos: "Ápice Cardíaco (5º EIC Linha Hemiclavicular)",
+        ratio: "Rs (R > S — Onda R predominante)",
+        mech: "V4 aponta diretamente para o ápice do coração. O vetor do VE aproxima-se ativamente da derivação, fazendo a onda R superar significativamente a onda S.",
+        coords: { x: 205, y: 68 },
+        pathD: "M 30 130 L 100 130 L 115 125 L 135 55 L 155 150 L 170 130 L 290 130",
+        lblQ: { visible: true, x: 115, y: 140, text: "q" },
+        lblR: { visible: true, x: 135, y: 40, text: "R" },
+        lblS: { visible: true, x: 155, y: 165, text: "s" }
+      },
+      {
+        name: "V5",
+        pos: "Parede Anterolateral (5º EIC Linha Axilar Ant.)",
+        ratio: "qR (R muito alta, S mínima ou ausente)",
+        mech: "O vetor de despolarização ventricular se aproxima quase paralelamente a V5. A onda R atinge sua altura máxima e pode surgir uma pequena onda q septal inicial.",
+        coords: { x: 242, y: 110 },
+        pathD: "M 30 130 L 100 130 L 115 138 L 135 48 L 155 130 L 290 130",
+        lblQ: { visible: true, x: 115, y: 152, text: "q" },
+        lblR: { visible: true, x: 135, y: 33, text: "R" },
+        lblS: { visible: false, x: 0, y: 0, text: "" }
+      },
+      {
+        name: "V6",
+        pos: "Parede Lateral Esquerda (5º EIC Linha Axilar Média)",
+        ratio: "qR / R (R alta, onda S ausente)",
+        mech: "V6 observa a parede lateral alta do VE. O vetor ventricular aponta diretamente para esta lente, registrando onda R alta e limpa com rápida repolarização, sem onda S.",
+        coords: { x: 252, y: 162 },
+        pathD: "M 30 130 L 100 130 L 115 136 L 135 52 L 150 130 L 290 130",
+        lblQ: { visible: true, x: 115, y: 150, text: "q" },
+        lblR: { visible: true, x: 135, y: 37, text: "R" },
+        lblS: { visible: false, x: 0, y: 0, text: "" }
+      }
+    ];
+
+    let currentIndex = 0;
+
+    // Renderizar os nós estáticos das câmaras das derivações no SVG torácico
+    function renderLeadNodes() {
+      const group = document.getElementById('leadNodes');
+      if (!group) return;
+
+      group.innerHTML = LEADS_DATA.map((d, i) => {
+        const isActive = i === currentIndex;
+        return `
+          <g class="lead-node" data-index="${i}" transform="translate(${d.coords.x}, ${d.coords.y})">
+            <circle r="${isActive ? '12' : '9'}" 
+                    fill="${isActive ? 'var(--accent-container)' : 'var(--surface-bright)'}" 
+                    stroke="${isActive ? 'var(--primary)' : 'var(--outline)'}" 
+                    stroke-width="${isActive ? '2' : '1.3'}"/>
+            <text x="0" y="4" text-anchor="middle" 
+                  fill="${isActive ? 'var(--primary)' : 'var(--on-surface)'}">${d.name}</text>
+          </g>
+        `;
+      }).join('');
+
+      // Adicionar manipuladores de eventos aos nós
+      group.querySelectorAll('.lead-node').forEach(node => {
+        node.addEventListener('click', () => {
+          const idx = parseInt(node.getAttribute('data-index'), 10);
+          setLeadIndex(idx);
+        });
+      });
+    }
+
+    // Função Principal de Atualização
+    function updateViz() {
+      const data = LEADS_DATA[currentIndex];
+
+      // Atualizar a interface dos botões tipo chip das derivações
+      document.querySelectorAll('.lead-chip').forEach((chip, idx) => {
+        if (idx === currentIndex) {
+          chip.classList.add('is-active');
+        } else {
+          chip.classList.remove('is-active');
+        }
+      });
+
+      // Atualizar os nós das derivações no SVG
+      renderLeadNodes();
+
+      // Atualizar a Linha de Projeção
+      const projLine = document.getElementById('projectionLine');
+      if (projLine) {
+        projLine.setAttribute('x2', data.coords.x);
+        projLine.setAttribute('y2', data.coords.y);
+      }
+
+      // Atualizar o Traçado da Onda QRS
+      const qrsTrace = document.getElementById('qrsTrace');
+      if (qrsTrace) {
+        qrsTrace.setAttribute('d', data.pathD);
+      }
+
+      // Atualizar as Etiquetas das Ondas (Q, R, S)
+      const lblQ = document.getElementById('lblQ');
+      if (lblQ) {
+        if (data.lblQ.visible) {
+          lblQ.style.display = 'block';
+          lblQ.setAttribute('x', data.lblQ.x);
+          lblQ.setAttribute('y', data.lblQ.y);
+          lblQ.textContent = data.lblQ.text;
+        } else {
+          lblQ.style.display = 'none';
+        }
+      }
+
+      const lblR = document.getElementById('lblR');
+      if (lblR) {
+        if (data.lblR.visible) {
+          lblR.style.display = 'block';
+          lblR.setAttribute('x', data.lblR.x);
+          lblR.setAttribute('y', data.lblR.y);
+          lblR.textContent = data.lblR.text;
+        } else {
+          lblR.style.display = 'none';
+        }
+      }
+
+      const lblS = document.getElementById('lblS');
+      if (lblS) {
+        if (data.lblS.visible) {
+          lblS.style.display = 'block';
+          lblS.setAttribute('x', data.lblS.x);
+          lblS.setAttribute('y', data.lblS.y);
+          lblS.textContent = data.lblS.text;
+        } else {
+          lblS.style.display = 'none';
+        }
+      }
+
+      // Atualizar o Distintivo (Badge)
+      const badge = document.getElementById('badgeLeadName');
+      if (badge) badge.textContent = data.name;
+
+      // Atualizar os Detalhes de Texto
+      document.getElementById('txtPos').textContent = `${data.name} — ${data.pos}`;
+      document.getElementById('txtRatio').textContent = data.ratio;
+      document.getElementById('txtMech').textContent = data.mech;
+    }
+
+    function setLeadIndex(index) {
+      if (index < 0) index = LEADS_DATA.length - 1;
+      if (index >= LEADS_DATA.length) index = 0;
+      currentIndex = index;
+      updateViz();
+    }
+
+    // Anexar Manipuladores de Eventos
+    document.getElementById('leadChips').addEventListener('click', (e) => {
+      const chip = e.target.closest('.lead-chip');
+      if (chip) {
+        const idx = parseInt(chip.getAttribute('data-index'), 10);
+        setLeadIndex(idx);
+      }
+    });
+
+    document.getElementById('btnPrev').addEventListener('click', () => {
+      setLeadIndex(currentIndex - 1);
+    });
+
+    document.getElementById('btnNext').addEventListener('click', () => {
+      setLeadIndex(currentIndex + 1);
+    });
+
+    // Renderização inicial
+    updateViz();
+
+    // Infraestrutura de Tema e Redimensionamento Automático
+    const applyTheme = t => { 
+      document.documentElement.setAttribute('data-theme', t); 
+      if (typeof updateViz === 'function') updateViz(); 
+    };
+    if (!document.documentElement.hasAttribute('data-theme') && window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+      applyTheme('dark');
+    }
+    window.addEventListener('message', e => { 
+      if (e.data?.type === 'set-theme' || e.data?.type === 'APPLY_THEME') applyTheme(e.data.theme); 
+    });
+
+    (function autoResize() {
+      function notifyHeight() {
+        const c = document.querySelector('.widget-container') || document.body;
+        if (!c) return;
+        const h = Math.ceil(Math.max(c.getBoundingClientRect().bottom, c.scrollHeight));
+        window.parent.postMessage({type: 'widget-resize', height: h}, '*');
+      }
+      window.addEventListener('load', () => setTimeout(notifyHeight, 120));
+      new ResizeObserver(() => notifyHeight()).observe(document.querySelector('.widget-container') || document.body);
+    })();
+  </script>
+
+<script>/*luminous-slider-normalizer*/(function(){function f(r){if(!r||r.type!=='range')return;var mn=parseFloat(r.min||'0'),mx=parseFloat(r.max||'100'),v=parseFloat(r.value);if(isNaN(v))v=(mn+mx)/2;var p=mx>mn?((v-mn)/(mx-mn))*100:50;r.style.setProperty('--progress',p+'%');r.style.removeProperty('--slider-fill');}function all(){document.querySelectorAll('input[type="range"], .lumi-slider').forEach(f);}document.addEventListener('input',function(e){f(e.target);});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',all);else all();})();</script>
+</body>
+</html>
